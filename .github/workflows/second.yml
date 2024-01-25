@@ -40,7 +40,7 @@ jobs:
                     touch emptyfile3/emptyfile3.txt
                     echo "fooled you again!" > emptyfile3/emptyfile3.txt
                     echo "but since you are here, job 1 and 2 are done" >> emptyfile3/emptyfile3.txt
-                    echo "not really empty anymore!" > emptyfile3/emptyfile3.txt
+                    echo "not really empty anymore!" >> emptyfile3/emptyfile3.txt
                     current_date=$(date)
                     echo "$current_date" >> emptyfile3/emptyfile3.txt
                     cat emptyfile3/emptyfile3.txt
