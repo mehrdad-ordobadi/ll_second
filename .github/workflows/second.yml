@@ -14,7 +14,8 @@ jobs:
                     mkdir -p emptyfile1
                     touch emptyfile1/emptyfile1.txt
                     echo "not really empty anymore!" > emptyfile1/emptyfile1.txt
-                    echo date >> emptyfile1/emptyfile1.txt
+                    current_date=$(date)
+                    echo "$current_date" >> emptyfile1/emptyfile1.txt
                     cat emptyfile1/emptyfile1.txt
     
     emptyfile2:
@@ -26,6 +27,8 @@ jobs:
                     touch emptyfile2/emptyfile2.txt
                     echo "not really empty anymore!" > emptyfile2/emptyfile2.txt
                     echo date >> emptyfile2/emptyfile2.txt
+                    current_date=$(date)
+                    echo "$current_date" >> emptyfile2/emptyfile2.txt
                     cat emptyfile2/emptyfile2.txt
     emptyfile3:
         needs: [emptyfile1, emptyfile2]
@@ -38,5 +41,6 @@ jobs:
                     echo "fooled you again!" > emptyfile3/emptyfile3.txt
                     echo "but since you are here, job 1 and 2 are done" >> emptyfile3/emptyfile3.txt
                     echo "not really empty anymore!" > emptyfile3/emptyfile3.txt
-                    echo date >> emptyfile3/emptyfile3.txt
+                    current_date=$(date)
+                    echo "$current_date" >> emptyfile3/emptyfile3.txt
                     cat emptyfile3/emptyfile3.txt
