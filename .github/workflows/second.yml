@@ -1,46 +1,66 @@
 name: second
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    emptyfile1:
-        runs-on: ubuntu-latest
-        steps:
-            - name: emptyfile1
-              run: |
-                    mkdir -p emptyfile1
-                    touch emptyfile1/emptyfile1.txt
-                    echo "not really empty anymore!" > emptyfile1/emptyfile1.txt
-                    current_date=$(date)
-                    echo "$current_date" >> emptyfile1/emptyfile1.txt
-                    cat emptyfile1/emptyfile1.txt
-    
-    emptyfile2:
-        runs-on: macos-latest
-        steps:
-            - name: emptyfile2
-              run: |
-                    mkdir -p emptyfile2
-                    touch emptyfile2/emptyfile2.txt
-                    echo "not really empty anymore!" > emptyfile2/emptyfile2.txt
-                    echo date >> emptyfile2/emptyfile2.txt
-                    current_date=$(date)
-                    echo "$current_date" >> emptyfile2/emptyfile2.txt
-                    cat emptyfile2/emptyfile2.txt
-    emptyfile3:
-        needs: [emptyfile1, emptyfile2]
-        runs-on: ubuntu-latest
-        steps:
-            - name: emptyfile3
-              run: |
-                    mkdir -p emptyfile3
-                    touch emptyfile3/emptyfile3.txt
-                    echo "fooled you again!" > emptyfile3/emptyfile3.txt
-                    echo "but since you are here, job 1 and 2 are done" >> emptyfile3/emptyfile3.txt
-                    echo "not really empty anymore!" >> emptyfile3/emptyfile3.txt
-                    current_date=$(date)
-                    echo "$current_date" >> emptyfile3/emptyfile3.txt
-                    cat emptyfile3/emptyfile3.txt
+  emptyfile1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: emptyfile1
+        run: |
+          mkdir -p emptyfile1
+          touch emptyfile1/emptyfile1.txt
+          echo "not really empty anymore!" > emptyfile1/emptyfile1.txt
+          current_date=$(date)
+          echo "$current_date" >> emptyfile1/emptyfile1.txt
+      - name: upload-artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: emptyfile1
+          path: emptyfile1/emptyfile1.txt
+
+  emptyfile2:
+    runs-on: macos-latest
+    steps:
+      - name: emptyfile2
+        run: |
+          mkdir -p emptyfile2
+          touch emptyfile2/emptyfile2.txt
+          echo "not really empty anymore!" > emptyfile2/emptyfile2.txt
+          current_date=$(date)
+          echo "$current_date" >> emptyfile2/emptyfile2.txt
+      - name: upload-artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: emptyfile2
+          path: emptyfile2/emptyfile2.txt
+
+  emptyfile3:
+    needs: [emptyfile1, emptyfile2]
+    runs-on: ubuntu-latest
+    steps:
+      - name: download-artifact emptyfile1
+        uses: actions/download-artifact@v2
+        with:
+          name: emptyfile1
+          path: emptyfile1
+      - name: download-artifact emptyfile2
+        uses: actions/download-artifact@v2
+        with:
+          name: emptyfile2
+          path: emptyfile2
+      - name: emptyfile3
+        run: |
+          mkdir -p emptyfile3
+          touch emptyfile3/emptyfile3.txt
+          echo "fooled you again!" > emptyfile3/emptyfile3.txt
+          echo "but since you are here, job 1 and 2 are done" >> emptyfile3/emptyfile3.txt
+          echo "not really empty anymore!" >> emptyfile3/emptyfile3.txt
+          current_date=$(date)
+          echo "$current_date" >> emptyfile3/emptyfile3.txt
+          cat emptyfile3/emptyfile3.txt
+          cat emptyfile1/emptyfile1.txt
+          cat emptyfile2/emptyfile2.txt
