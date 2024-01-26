@@ -7,7 +7,7 @@ on:
 
 jobs:
   emptyfile1:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: emptyfile1
         run: |
@@ -23,7 +23,7 @@ jobs:
           path: emptyfile1/emptyfile1.txt
 
   emptyfile2:
-    runs-on: macos-latest
+    runs-on: self-hosted
     steps:
       - name: emptyfile2
         run: |
@@ -40,7 +40,7 @@ jobs:
 
   emptyfile3:
     needs: [emptyfile1, emptyfile2]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: download-artifact emptyfile1
         uses: actions/download-artifact@v2
